@@ -9,26 +9,36 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
+    
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
       }}>
-      <Tabs.Screen
+      <Tabs.Screen 
         name="index"
         options={{
-          title: 'Home',
+        title:"Jogos",
+        tabBarIcon:({color,focused}) => (
+          <TabBarIcon name={focused ? "balloon" : "balloon-outline"} color={color} />//Mudar Icone
+                            //Icone preenchido --  Icone vazio
+        ),
+      }}/>
+      <Tabs.Screen
+        name="kitchen"
+        options={{
+          title: 'Cozinha',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />//Mudar Icone
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="room"
         options={{
-          title: 'Explore',
+          title: 'Quarto',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />//Mudar Icone
           ),
         }}
       />
