@@ -8,7 +8,7 @@ interface BackgroundProps {
 const Background: React.FC<BackgroundProps> = ({ children }) => {
   return (
     <ImageBackground
-      source={require('../assets/images/walpaper.png')} // Certifique-se de que a extensão está correta
+      source={require('../assets/images/walpaperzoom.png')}
       style={styles.background}
     >
       {children}
@@ -25,3 +25,4 @@ const styles = StyleSheet.create({
 });
 
 export default Background;
+
