@@ -65,14 +65,14 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Camada de opacidade
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   image: {
     width: 200,
     height: 200,
     top: 25,
     left: 15,
-    zIndex: 1, // Pato na frente
+    zIndex: 1,
   },
   imageNinho: {
     position: 'absolute',
@@ -80,18 +80,18 @@ const styles = StyleSheet.create({
     top: 260,
   },
   darkImage: {
-    opacity: 0.8, // Aplica um efeito de escurecimento leve
+    opacity: 0.8,
   },
   menuButton: {
     position: 'absolute',
     top: 50,
     right: 20,
-    backgroundColor: '#FF0000', // Vermelho
+    backgroundColor: '#FF0000',
     padding: 10,
     borderRadius: 5,
   },
   menuButtonText: {
-    color: '#FFFFFF', // Branco
+    color: '#FFFFFF',
     fontSize: 16,
   },
   lightButton: {

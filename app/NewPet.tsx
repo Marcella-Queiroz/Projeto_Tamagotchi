@@ -1,46 +1,56 @@
 import React, { useState } from 'react';
-import { View, Text, Button, Modal, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { router } from 'expo-router';
+import { View, Text, Button, Modal, StyleSheet, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
+import { getPetImage } from './geral/getPetImage';
+import { useTamagotchidb } from './database/tamagotchidb';
+import { ImagesPet, TamagochiType } from '../assets/images/ImagesPet';
 import Background from './background';
+ 
 
-const App = () => {
+const NewPet = () => {
+  const [selectedImage, setSelectedImage] = useState<TamagochiType | null>(null);
+  const [name, setName] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("Pato");
-  const [name, setName] = useState("");
-  const navigation = useNavigation();
+  const router = useRouter();
+  const database = useTamagotchidb();
 
-  const navigateToSelectionPet = () => {
-    router.push('/SelectionPet'); // Substitua o caminho conforme necessário
-  };
 
-  const getImageSource = (animal) => {
-    switch (animal) {
-      case "Pato":
-        return require('../assets/images/duckAnimationPisc.gif');
-      case "Gato":
-        return require('../assets/images/duckAnimationPisc.gif');
-      case "Ganso":
-        return require('../assets/images/ganso.gif');
-      case "Cachorro":
-        return require('../assets/images/duckAnimationPisc.gif');
-      default:
-        return require('../assets/images/duckAnimationPisc.gif');
+  const handleCreateTamagochi = async () => {
+    if (!name) {
+      return Alert.alert('Por favor, insira um nome para o Tamagochi.');
+    }
+    if (!selectedImage) {
+      return Alert.alert('Por favor, selecione uma imagem para o Tamagochi.');
+    }
+    try {
+      const id = await database.createPet({
+        name: name,
+        tamagochi_id: selectedImage
+      });
+      Alert.alert('Tamagochi criado com sucesso!', `ID: ${id}`);
+      setName('');
+      setSelectedImage(null);
+      router.back();
+    } catch (error) {
+      console.error('Erro ao criar o Tamagochi:', error);
     }
   };
 
-  const handleAnimalSelect = (animal) => {
-    setSelectedValue(animal);
-    setModalVisible(false); // Fecha o modal após a seleção
+  const handleImageSelect = (image: TamagochiType) => {
+    setSelectedImage(image);
+    setModalVisible(false);
   };
+
+  const selectedImageSource = selectedImage ? getPetImage('muito_bem', selectedImage) : null;
 
   return (
     <Background>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.backButton} onPress={navigation.goBack}>
+        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
           <Text style={styles.backText}>{"❮"}</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>Novo Jogo</Text>
+        <Text style={styles.title}>Criar Tamagochi</Text>
+
         <Text style={styles.label}>Nome:</Text>
         <TextInput
           style={styles.input}
@@ -48,16 +58,20 @@ const App = () => {
           value={name}
           onChangeText={setName}
         />
-        <Text style={styles.label}>Animal:</Text>
+
+        <Text style={styles.label}>Imagem:</Text>
         <View style={styles.animalBox}>
-          <Image source={getImageSource(selectedValue)} style={styles.animalImage} />
-          <Text style={styles.animalText}>{selectedValue}</Text>
+          {selectedImageSource && (
+            <Image source={selectedImageSource} style={styles.animalImage} />
+          )}
+          <Text style={styles.animalText}>{selectedImage ? selectedImage : 'Nenhuma imagem selecionada'}</Text>
         </View>
+
         <TouchableOpacity style={styles.chooseButton} onPress={() => setModalVisible(true)}>
-          <Text>Escolher ⋯</Text>
+          <Text>Escolher Imagem ⋯</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.createButton} onPress={navigateToSelectionPet}>
+        <TouchableOpacity style={styles.createButton} onPress={handleCreateTamagochi}>
           <Text style={styles.buttonText}>Criar</Text>
         </TouchableOpacity>
 
@@ -69,16 +83,19 @@ const App = () => {
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalView}>
-              <Text style={styles.modalTitle}>Escolha um animal:</Text>
+              <Text style={styles.modalTitle}>Escolha uma imagem:</Text>
               <View style={styles.animalGrid}>
-                {["Pato", "Gato", "Cachorro"].map((animal) => (
+                {Object.keys(ImagesPet.muito_bem).map((key) => (
                   <TouchableOpacity
-                    key={animal}
+                    key={key}
                     style={styles.animalOption}
-                    onPress={() => handleAnimalSelect(animal)}
+                    onPress={() => handleImageSelect(key as TamagochiType)}
                   >
-                    <Image source={getImageSource(animal)} style={styles.animalImage} />
-                    <Text style={styles.animalText}>{animal}</Text>
+                    <Image
+                      source={getPetImage('muito_bem', key as TamagochiType)}
+                      style={styles.animalImage}
+                    />
+                    <Text style={styles.animalText}>{key}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
@@ -96,7 +113,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingTop: 130, // Ajuste o valor conforme necessário
+    paddingTop: 130,
   },
   backButton: {
     position: 'absolute',
@@ -118,7 +135,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 15,
     marginBottom: 15,
-    right: 120,
   },
   input: {
     height: 40,
@@ -155,8 +171,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   createButton: {
-    marginTop:60,
-    backgroundColor:'#c43434',
+    backgroundColor: '#c43434',
     paddingTop: 15,
     paddingRight: 60,
     paddingBottom: 15,
@@ -165,7 +180,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonText: {
-    color:'#FFD700',
+    color: '#FFD700',
     fontWeight: 'bold',
   },
   modalContainer: {
@@ -205,4 +220,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default NewPet;

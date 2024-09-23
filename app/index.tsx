@@ -41,28 +41,28 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   title: {
-    color: '#FFD700', // Amarelo
-    fontSize: 50, // Tamanho da fonte
+    color: '#FFD700',
+    fontSize: 50,
     fontWeight: 'bold',
     marginBottom: 10,
     marginTop: -100,
-    textShadowColor: '#FF0000', // Sombra
+    textShadowColor: '#FF0000',
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 1,
   },
   subtitle: {
-    color: '#FF0000', // Vermelho
+    color: '#FF0000',
     fontSize: 18,
-    position: 'absolute', // Posicionamento absoluto
+    position: 'absolute',
     bottom: 5, 
     right: 0,
   },
   startText: {
-    color: '#FF0000', // Vermelho
-    fontSize: 38, // Tamanho da fonte
+    color: '#FF0000',
+    fontSize: 38,
     marginTop: 50,
-    fontFamily: 'LondrinaOutline-Regular', // Fonte Londrina...
-    textDecorationLine: 'none', // Remove o sublinhado
+    fontFamily: 'LondrinaOutline-Regular',
+    textDecorationLine: 'none',
   },
   footerContainer: {
     position: 'absolute',
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   footerText: {
-    color: '#808080', // Cor do texto
+    color: '#808080',
     fontSize: 16,
   },
 });

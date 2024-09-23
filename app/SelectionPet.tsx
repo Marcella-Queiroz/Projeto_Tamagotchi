@@ -23,7 +23,10 @@ const SelectionPet = () => {
         <Text style={styles.sectionTitle}>Bichinhos criados</Text>
 
         <View style={styles.emptyBoxesContainer}>
+
           <View style={styles.row}>
+
+            {/* BOTÃO 1 */}
             <TouchableOpacity style={styles.imageWrapper} onPress={navigateToTabs}>
               <Text style={styles.buttonText}>Patin</Text>
               <View>
@@ -33,26 +36,39 @@ const SelectionPet = () => {
                 />
               </View>
             </TouchableOpacity>
+            
+            {/* BOTÃO 2 */}
             <TouchableOpacity style={styles.button} onPress={navigateToNewPet}>
               <Text style={styles.buttonText}>Criar  +</Text>
             </TouchableOpacity>
           </View>
+
           <View style={styles.row}>
+
+            {/* BOTÃO 3 */}
             <TouchableOpacity style={styles.button}>
               <Text style={styles.buttonText}></Text>
             </TouchableOpacity>
+
+            {/* BOTÃO 4 */}
             <TouchableOpacity style={styles.button}>
               <Text style={styles.buttonText}></Text>
             </TouchableOpacity>
           </View>
+
           <View style={styles.row}>
+
+            {/* BOTÃO 5 */}
             <TouchableOpacity style={styles.button}>
               <Text style={styles.buttonText}></Text>
             </TouchableOpacity>
+
+            {/* BOTÃO 6 */}
             <TouchableOpacity style={styles.button}>
               <Text style={styles.buttonText}></Text>
             </TouchableOpacity>
           </View>
+
         </View>
       </View>
     </ImageBackground>

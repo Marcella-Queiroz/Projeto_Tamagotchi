@@ -7,7 +7,7 @@ const Kitchen = () => {
   const [currentScreen, setCurrentScreen] = useState('Kitchen');
   const [statusProps, setStatusProps] = useState({ hunger: 80, sleep: 70, fun: 90 });
   const [showFood, setShowFood] = useState(true);
-  const [foodPosition, setFoodPosition] = useState({ x: 180, y: 650 }); // Posição inicial da maça 
+  const [foodPosition, setFoodPosition] = useState({ x: 180, y: 650 }); 
 
   const navigateToStatus = () => {
     setStatusProps({ hunger: 80, sleep: 70, fun: 90 });
@@ -24,14 +24,13 @@ const Kitchen = () => {
       setFoodPosition({ x: gestureState.moveX, y: gestureState.moveY });
     },
     onPanResponderRelease: () => {
-      // Verifica se a comida está próxima da boca do pato
       if (foodPosition.x > 210 && foodPosition.x < 280 && foodPosition.y > 300 && foodPosition.y < 370) {
         setShowFood(false);
-        setStatusProps(prevState => ({ ...prevState, hunger: prevState.hunger + 10 })); // Aumenta o status de fome
+        setStatusProps(prevState => ({ ...prevState, hunger: prevState.hunger + 10 }));
         setTimeout(() => {
-          setFoodPosition({ x: 180, y: 650 }); // Reseta a posição inicial da maça
+          setFoodPosition({ x: 180, y: 650 });
           setShowFood(true);
-        }, 500); // Tempo para reaparecer o alimento
+        }, 500); 
       }
     },
   });
@@ -81,12 +80,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 50,
     right: 20,
-    backgroundColor: '#FF0000', // Vermelho
+    backgroundColor: '#FF0000',
     padding: 10,
     borderRadius: 5,
   },
   menuButtonText: {
-    color: '#FFFFFF', // Branco
+    color: '#FFFFFF',
     fontSize: 16,
   },
   food: {

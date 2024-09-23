@@ -3,7 +3,7 @@ import { SQLiteDatabase } from "expo-sqlite";
 export async function initDatabase (database: SQLiteDatabase) {
     try {
         await database.execAsync(`
-            CREATE TABLE IF NOT EXISTS PETS (
+            CREATE TABLE IF NOT EXISTS PETTS (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             hunger INTEGER NOT NULL DEFAULT 100,

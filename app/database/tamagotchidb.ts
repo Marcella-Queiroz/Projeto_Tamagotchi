@@ -1,4 +1,4 @@
-import { SQLiteDatabase } from 'expo-sqlite';
+import { useSQLiteContext } from 'expo-sqlite';
 
 export type Pet = {
     id: number;
@@ -11,12 +11,15 @@ export type Pet = {
     lastUpdated: number;
 };
 
-export function useTamagochiDatabase(database: SQLiteDatabase) {
+export function useTamagotchidb() {
+    
+    const database = useSQLiteContext();
 
+    //Criar Pet
     async function createPet(data: Omit<Pet, 'id' | 'hunger' | 'sleep' | 'happy' | 'status' | 'lastUpdated'>) {
         const currentTime = Math.floor(Date.now() / 3600000);
         const statement = await database.prepareAsync(`
-            INSERT INTO PETS (name, hunger, sleep, happy, status, tamagochi_id, lastUpdated) 
+            INSERT INTO PETTS (name, hunger, sleep, happy, status, tamagochi_id, lastUpdated) 
             VALUES ($name, 100, 100, 100, 300, $tamagochi_id, $lastUpdated);    
         `);
         try {
@@ -38,6 +41,7 @@ export function useTamagochiDatabase(database: SQLiteDatabase) {
         }
     }
 
+    //Pesquisar Pets
     async function findAllPets() {
         try {
             const query = `SELECT * FROM pets;`;
@@ -47,6 +51,9 @@ export function useTamagochiDatabase(database: SQLiteDatabase) {
         }
     }
 
+    
+    
+    //Pesquisar por ID
     async function findPetById(id: number) {
         try {
             const query = `SELECT * FROM pets WHERE id = ?;`;
@@ -56,6 +63,7 @@ export function useTamagochiDatabase(database: SQLiteDatabase) {
         }
     }
 
+    //Deletar por ID
     async function deletePetById(id: number) {
         let statement;
         try {
@@ -72,6 +80,7 @@ export function useTamagochiDatabase(database: SQLiteDatabase) {
         }
     }
 
+    //Atualizar Fome do Pet
     async function updateHunger(id: number, hunger: number) {
         const currentTime = Math.floor(Date.now() / 3600000);
         const statement = await database.prepareAsync(`
@@ -90,6 +99,7 @@ export function useTamagochiDatabase(database: SQLiteDatabase) {
         }
     }
 
+    //Atualizar Diversão
     async function updateHappy(id: number, happy: number) {
         const currentTime = Math.floor(Date.now() / 3600000);
         const statement = await database.prepareAsync(`
@@ -108,6 +118,7 @@ export function useTamagochiDatabase(database: SQLiteDatabase) {
         }
     }
 
+    //Atualizar Sono
     async function updateSleep(id: number, sleep: number) {
         const currentTime = Math.floor(Date.now() / 3600000);
         const statement = await database.prepareAsync(`
@@ -126,6 +137,7 @@ export function useTamagochiDatabase(database: SQLiteDatabase) {
         }
     }
     
+    //Atualizar atributos
     async function updateAllPetAttributes(id: number, hunger: number, sleep: number, happy: number) {
         const currentTime = Math.floor(Date.now() / 3600000);
         const statement = await database.prepareAsync(`
